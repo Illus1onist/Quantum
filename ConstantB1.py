@@ -17,28 +17,27 @@ def C(n, k):
     else:
         return 0
 
-Exp=[0]*4
-for i in range (4):
-    Exp[i]=50*pow(2,i)
+
+N=750
 
 F = 100
 koef = 1.4*10**15  # магнетон делить на планка
 a = 0  # кол-во нулей в одной серии
 B=3*10**-12 # 5,6*10**-12
 t=200*10**-6
-for i in range (Exp[0]):
+for i in range (N):
     if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
         a=a+1
 l=[0]*F
 g=[0]*F
-k = C(Exp[0], a)
+k = C(N, a)
 p=1  # границы
 o=0
 y=0  # счетчик для границ
 max=0
 for j in range (F):
 
-    l[j] = k*pow(j/F, a)*pow(1-j/F, Exp[0]-a)
+    l[j] = k*pow(j/F, a)*pow(1-j/F, N-a)
     if l[j]>max:
         max=l[j]
     g[j]=j/F
@@ -46,7 +45,7 @@ for j in range(F):
     if (l[j]>0.05*max and y==0):
         p=j/F
         y=y+1
-    if (y==1 and l[j]<0.01*max):
+    if (y==1 and l[j]<0.05*max):
         o=j/F
         y=y+1
 

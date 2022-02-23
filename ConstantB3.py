@@ -18,10 +18,10 @@ def C(n, k):
         return 0
 
 
-F = 500
+F = 5000
 koef = 1.4*10**15  # магнетон делить на планка
 a = 0  # кол-во нулей в одной серии
-B = 4.5*10**-12  # наше поле
+B = 5*10**-12  # наше поле
 B0 = 5.6*10**-12  # 5,6*10**-12 - максимум
 t = 200*10**-6  # время первого снятия
 l = [1/F]*F  # первое распределение (юниформ)
@@ -31,105 +31,44 @@ p = [1/F]*F
 
 
 g = [0]*F
-
 N = 50
-
 for j in range (F):
     g[j] = j/F*B0
 
-for j in range (N):
-    if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
-        a=a+1  # первое снятие
-sum=0
-print(a)
-for j in range(F):
-    if (a>N/2):
-        l[j] = l[j]*(np.cos(koef*g[j]*t))**2
-    if (a<=N/2):
-        l[j] = l[j]*(np.sin(koef*g[j]*t))**2
-    sum = sum+l[j]
-
-
-for j in range(F):
-    l[j] = l[j]/sum
-
-for j in range(F):
-    u[j]=l[j]
-
-
-a=0
-t=t*2
-
-for j in range (N):
-    if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
-        a=a+1  # второе снятие
-sum=0
-print(a)
-for j in range(F):
-    if (a>N/2):
-        l[j] = l[j]*(np.cos(koef*g[j]*t))**2
-    if (a<=N/2):
-        l[j] = l[j]*(np.sin(koef*g[j]*t))**2
-    sum = sum+l[j]
-
-
-for j in range(F):
-    l[j] = l[j]/sum
-
-for j in range(F):
-    q[j]=l[j]
-
-
-a=0
-t=t*2
-
-for j in range (N):
-    if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
-        a=a+1  # второе снятие
-sum=0
-print(a)
-for j in range(F):
-    if (a>N/2):
-        l[j] = l[j]*(np.cos(koef*g[j]*t))**2
-    if (a<=N/2):
-        l[j] = l[j]*(np.sin(koef*g[j]*t))**2
-    sum = sum+l[j]
-
-
-for j in range(F):
-    l[j] = l[j]/sum
-
-for j in range(F):
-    p[j]=l[j]
+for i in range (5):
+    for j in range (N):
+        if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
+            a=a+1  # первое снятие
+    sum=0
+    for j in range(F):
+        if (a>N/2):
+            l[j] = l[j]*(np.cos(koef*g[j]*t))**2
+        if (a<=N/2):
+            l[j] = l[j]*(np.sin(koef*g[j]*t))**2
+        sum = sum+l[j]
+    for j in range(F):
+        l[j] = l[j]/sum
+    max=0
+    y=0
+    MaxB=B0
+    MinB=0
+    for j in range(F):
+        if l[j] > max:
+            max = l[j]
+    for j in range(F):
+        if (l[j] > 0.05 * max and y == 0):
+            MinB = j / F*B0
+            y = y + 1
+        if (y == 1 and l[j] < 0.05 * max):
+            MaxB = j / F*B0
+            y = y + 1
+    print(MaxB-MinB)
+    a=0
+    t=t*2
 
 
 
-a=0
-t=t*2
-
-for j in range (N):
-    if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
-        a=a+1  # второе снятие
-sum=0
-print(a)
-for j in range(F):
-    if (a>N/2):
-        l[j] = l[j]*(np.cos(koef*g[j]*t))**2
-    if (a<=N/2):
-        l[j] = l[j]*(np.sin(koef*g[j]*t))**2
-    sum = sum+l[j]
-
-
-for j in range(F):
-    l[j] = l[j]/sum
-
-
-
-
-plt.scatter(g, u, s=10, color='red')
-plt.scatter(g, q, s=10, color='green')
-plt.scatter(g, p, s=10, color='yellow')
-plt.scatter(g, l, s=10, color='blue')
+plt.scatter(g, l, s=3, color='blue')
 
 
 plt.grid(True)
