@@ -35,7 +35,7 @@ N = 50
 for j in range (F):
     g[j] = j/F*B0
 
-for i in range (5):
+for i in range (8):
     for j in range (N):
         if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
             a=a+1  # первое снятие
