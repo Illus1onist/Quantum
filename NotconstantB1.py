@@ -19,11 +19,12 @@ def C(n, k):
 
 frequency=10*10**3
 Tperiod=1/frequency
-Bparasite=0*10**-12 # паразитное B
+phaseforB=0.5 # Это значение смещения фазы магнитного поля в радианах!!!
+Bparasite=0*10**-12  # паразитное B
 F = 5000 # дискретизация
 koef = 1.4*10**15  # магнетон делить на планка
 a = 0  # кол-во нулей в одной серии
-B = 2.0*10**-12  # наше поле (его амплитуда)
+B = 2.5*10**-12  # наше поле (его амплитуда)
 B0 = 5.6*10**-12  # 5,6*10**-12 - максимум
 t = 2*10**-4  # время первого снятия
 l = [1/F]*F  # первое распределение (юниформ)
@@ -52,8 +53,8 @@ Y = 1000 # (Y - частота дискретизации самого поля,
 for k in range (4):
     SumPhase=0
     for i in range(int(t / Tperiod) * Y):  # (Y - частота дискретизации самого поля, один период разделен на 1000 столбцов)
-        SumPhase = SumPhase + koef*Bparasite * Tperiod / Y + koef* B * np.sin(i / Y * Tperiod * 2 * np.pi / Tperiod) * Tperiod / Y
-        if ((i % (Y/2)) == int(Y/2)-1):
+        SumPhase = SumPhase + koef*Bparasite * Tperiod / Y + koef* B * np.sin(i / Y * Tperiod * 2 * np.pi / Tperiod + phaseforB*np.pi) * Tperiod / Y
+        if (abs(i/Y*2+phaseforB)<0.0005 and np.sin((i-2) / Y * Tperiod * 2 * np.pi / Tperiod + phaseforB*np.pi)>0):
             SumPhase = np.pi - SumPhase
         #stat[i]=SumPhase
     #print(SumPhase)

@@ -18,9 +18,9 @@ def C(n, k):
         return 0
 
 
-N=750
+N=150
 
-F = 100
+F = 5000
 koef = 1.4*10**15  # магнетон делить на планка
 a = 0  # кол-во нулей в одной серии
 B=3*10**-12 # 5,6*10**-12
@@ -54,7 +54,7 @@ Bmax=(np.arccos(np.sqrt(p))/koef)/t
 print(-Bmin+Bmax)
 #for j in range (F):
 
-plt.scatter(g, l, s=30, color='red')
+plt.scatter(g, l, s=10, color='red')
 
 plt.grid(True)
 plt.show()

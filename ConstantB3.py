@@ -21,7 +21,7 @@ def C(n, k):
 F = 5000
 koef = 1.4*10**15  # магнетон делить на планка
 a = 0  # кол-во нулей в одной серии
-B = 5*10**-12  # наше поле
+B = 4.2*10**-12  # наше поле
 B0 = 5.6*10**-12  # 5,6*10**-12 - максимум
 t = 200*10**-6  # время первого снятия
 l = [1/F]*F  # первое распределение (юниформ)
@@ -49,19 +49,28 @@ for i in range (8):
     for j in range(F):
         l[j] = l[j]/sum
     max=0
+    maxi=0
     y=0
     MaxB=B0
     MinB=0
     for j in range(F):
         if l[j] > max:
             max = l[j]
-    for j in range(F):
-        if (l[j] > 0.05 * max and y == 0):
-            MinB = j / F*B0
-            y = y + 1
-        if (y == 1 and l[j] < 0.05 * max):
-            MaxB = j / F*B0
-            y = y + 1
+            maxi=j
+    schetchikdlydelta=maxi
+    while (y == 0):
+        if (l[schetchikdlydelta]<0.5*max or schetchikdlydelta==0):
+            MinB=schetchikdlydelta/F*B0
+            break
+        schetchikdlydelta = schetchikdlydelta - 1
+
+    schetchikdlydelta = maxi
+
+    while (y == 0):
+        if (l[schetchikdlydelta]<0.5*max or schetchikdlydelta == F - 1):
+            MaxB=schetchikdlydelta/F*B0
+            break
+        schetchikdlydelta = schetchikdlydelta + 1
     print(MaxB-MinB)
     a=0
     t=t*2
