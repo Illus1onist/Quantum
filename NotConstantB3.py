@@ -5,11 +5,11 @@ import random
 
 
 frequency = 55.0*10**3  # 10-50 на 10**3 диапазон считываемых частот, диапазон промежутков времени - 10**-4 - 0,2*10**-4
-LowerBorderFr = 10*10**3
+LowerBorderFr = 5*10**3
 HigherBorderFr = 60*10**3
-
+Tizmmax=0.0004
 phaseforB = 0  # Это значение смещения фазы магнитного поля в радианах потом будет меняться!!!
-Bparasite = 0.0*10**-12  # паразитное B
+Bparasite = 0.5*10**-12  # паразитное B
 koef = 1.4*10**15  # магнетон делить на планка
 F = 200  # кол-во точек с первого раза
 B = 3.0*10**-12  # наше поле (его амплитуда)
@@ -32,6 +32,12 @@ for o in range (1):
         # Верхней на 10**3
         AveragePhase = 0
         for k in range(U):
+            N=1
+            while (True):
+                N=N+1
+                if N*Tau>Tizmmax:
+                    N=N-1
+                    break
             SumPhase = 0
             phaseforB = random.random()*2
             #phaseforB = float(k)/U*2
@@ -58,8 +64,8 @@ for o in range (1):
             plt.show()
             '''
             AveragePhase = AveragePhase+SumPhase**2
-        AveragePhase = AveragePhase/U
-        l[j] = AveragePhase/N/Tau
+        AveragePhase = AveragePhase
+        l[j] = np.sqrt(AveragePhase/N/Tau)
         g[j] = (LowerBorderFr+float(HigherBorderFr-LowerBorderFr)/F*j) #/frequency
 
 

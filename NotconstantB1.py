@@ -55,11 +55,11 @@ for k in range(5):
     for i in range(int(t / Tperiod) * Y):  # (Y - частота дискретизации самого поля, один период разделен на 1000 столбцов)
         if (np.sin(i / Y * 2 * np.pi + phaseforB*np.pi)<0):
             SumPhase = SumPhase - koef * Bparasite * Tperiod / Y - koef * B * np.sin(
-                i / Y * Tperiod * 2 * np.pi / Tperiod +
+                i / Y * 2 * np.pi +
                 phaseforB * np.pi) * Tperiod / Y
         if (np.sin(i / Y * 2 * np.pi + phaseforB*np.pi)>0):
             SumPhase = SumPhase + koef * Bparasite * Tperiod / Y + koef * B * np.sin(
-                i / Y * Tperiod * 2 * np.pi / Tperiod +
+                i / Y * 2 * np.pi +
                 phaseforB * np.pi) * Tperiod / Y
 
 
