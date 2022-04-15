@@ -1,14 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-
-koeffitsienti=[[0]*6 for i in range (6)]
+N=10
+koeffitsienti=[[0]*N for i in range (N)]
 
 frequency=10*10**3
 phaseforB=0 # Это значение смещения фазы магнитного поля в радианах!!!
 Bparasite=0*10**-12  # паразитное B
 koef = 1.4*10**15  # магнетон делить на планка
-B=[0]*6
 
 B0 = 5.6*10**-12  # 5,6*10**-12 - максимум
 t = 4*10**-4  # время первого снятия
@@ -16,9 +15,9 @@ t = 4*10**-4  # время первого снятия
 Y = 1000 # (Y - частота дискретизации самого поля, один МАКСИМАЛЬНЫЙ период разделен на 1000 столбцов)
 
 P=300
-for g in range (6):
-    for o in range (6): # перебор частот составляющих сигнал , от frequency до 6xfrequency
-        for l in range(o,6): # перебор частот, составляющих сигнал, от frequency до 6xfrequency
+for g in range (N):
+    for o in range (N): # перебор частот составляющих сигнал , от frequency до 6xfrequency
+        for l in range(o,N): # перебор частот, составляющих сигнал, от frequency до 6xfrequency
             print(l)
             for v in range(P):
                 phaseforB = v/P*2
@@ -42,19 +41,20 @@ for g in range (6):
                 koeffitsienti[o][l] = koeffitsienti[o][l]+SumPhaseB*SumPhaseA/P
             koeffitsienti[l][o] = koeffitsienti[o][l]
 
-    for u in range(6):
-        print(koeffitsienti[u])
-        for j in range (6):
-            koeffitsienti[u][j]=0
-    print(0)
-    print(0)
+    for u in range(N):
+        for v in range(N):
+            koeffitsienti[u][v]=koeffitsienti[u][v]/(t)**2  #тут находится коэффициент типа 2/pi**2.
 
+    for u in range(N):
+        print(koeffitsienti[u])
+
+    for u in range(N):
+        for j in range(N):
+            koeffitsienti[u][j] = 0
+    print(0)
+    print(0)
 
                 #stat[i]=SumPhase
 
             #print(SumPhase)
         #print(AverageSquarePhase)
-
-
-
-
