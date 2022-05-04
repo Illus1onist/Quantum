@@ -2,6 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+def randbin(P):
+    # вероятность нуля
+    return np.random.choice([0, 1], size=(1, 1), p=[P, 1 - P]).reshape(1)[0]
+
 N=10
 frequency=10*10**3
 Tperiod=1/frequency
@@ -26,10 +30,11 @@ t = 4*10**-4  # время первого снятия
 Y = 1000 # (Y - частота дискретизации самого поля, один МАКСИМАЛЬНЫЙ период разделен на 1000 столбцов)
 
 AverageSquarePhase=[0]*N
-P=300
+P=50
+NumberOfQuants=50
 for o in range (N): # перебор частот поворотов, от frequency до 10xfrequency
     for v in range(P):
-        phaseforB = v/P*2
+        phaseforB = random.random()*2
         SumPhase = 0
         for i in range(int(t * frequency) * Y):  # (Y - частота дискретизации самого поля, один Максимальный период разделен на 1000 столбцов)
             signal = 0
@@ -41,6 +46,10 @@ for o in range (N): # перебор частот поворотов, от frequ
             if (i%int(Y/(o+1))>int(Y/(o+1))/2):
                 SumPhase = SumPhase + koef * Bparasite * Tperiod / Y - koef / frequency / Y * (
                 signal)
+        schet=0
+        for i in range(NumberOfQuants):
+            schet=schet+1-randbin(np.cos(SumPhase) * np.cos(SumPhase))
+        SumPhase=np.arccos(np.sqrt(schet/NumberOfQuants))
 
         AverageSquarePhase[o]=AverageSquarePhase[o]+SumPhase*SumPhase/P
     print(0)
@@ -64,3 +73,23 @@ for i in range (N):
     print(solution[i])
 
 
+stat1=[0]*int(t * frequency) * Y
+stat2=[0]*int(t * frequency) * Y
+stattime=[0]*int(t * frequency) * Y
+for i in range (int(t * frequency) * Y):
+    stattime[i]=i
+    signal = 0
+    for j in range(N):
+        signal = signal + B[j] * np.sin(i / (Y / (j + 1)) * 2 * np.pi)
+    stat1[i]=signal
+    signal=0
+    for j in range(N):
+        signal = signal + solution[j] * np.sin(i / (Y / (j + 1)) * 2 * np.pi)
+    stat2[i]=signal#-stat1[i]
+
+plt.scatter(stattime, stat1, s=5, color='blue')
+plt.scatter(stattime, stat2, s=5, color='red')
+
+
+plt.grid(True)
+plt.show()

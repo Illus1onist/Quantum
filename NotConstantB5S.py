@@ -1,7 +1,8 @@
 import numpy as np
+
 import matplotlib.pyplot as plt
 import random
-N=10
+N=35
 koeffitsienti=[0]*N
 
 frequency=10*10**3
@@ -17,7 +18,7 @@ Y = 1000 # (Y - частота дискретизации самого поля,
 P=300
 for g in range (N):
     for o in range (N): # перебор частот составляющих сигнал , от frequency до 6xfrequency
-        print(o)
+
         for v in range(P):
             phaseforB = v/P*2
             SumPhaseA = 0
@@ -36,5 +37,3 @@ for g in range (N):
     print(koeffitsienti)
     for u in range(N):
         koeffitsienti[u] = 0
-    print(0)
-    print(0)
