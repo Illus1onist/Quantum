@@ -35,11 +35,12 @@ N = 25
 for j in range (F):
     g[j] = j/F*B0
 
-for i in range (10):
+for i in range (3):
     for j in range (N):
         if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
             a=a+1  # первое снятие
     sum=0
+
     for j in range(F):
         if (a>N/2):
             l[j] = l[j]*(np.cos(koef*g[j]*t))**2

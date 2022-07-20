@@ -36,12 +36,12 @@ for j in range (F):
 
 
 
-for i in range (7):
+for i in range (2):
     for j in range (N):
         if (randbin(np.cos(koef*B*t) * np.cos(koef*B*t)) == 0):
             a=a+1  # первое снятие
     sum=0
-
+    #l = [1 / F] * F
     for j in range(F):
         l[j] = l[j]*C(N,a)*((np.cos(koef*g[j]*t))**2)**(a)*((np.sin(koef*g[j]*t))**2)**(N-a)
         sum = sum+l[j]

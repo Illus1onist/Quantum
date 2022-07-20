@@ -65,7 +65,7 @@ for o in range (1):
             '''
             AveragePhase = AveragePhase+SumPhase**2
         AveragePhase = AveragePhase
-        l[j] = np.sqrt(AveragePhase/N/Tau)
+        l[j] = np.sqrt(AveragePhase/N/Tau/Tau/Tau)
         g[j] = (LowerBorderFr+float(HigherBorderFr-LowerBorderFr)/F*j) #/frequency
 
 

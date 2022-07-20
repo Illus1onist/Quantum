@@ -39,7 +39,7 @@ for o in range (N): # перебор частот поворотов, от frequ
         for i in range(int(t * frequency) * Y):  # (Y - частота дискретизации самого поля, один Максимальный период разделен на 1000 столбцов)
             signal = 0
             for j in range(N):
-                signal = signal + B[j] * np.sin(i / (Y / (j + 1)) * 2 * np.pi + phaseforB * (j + 1) * np.pi)
+                signal = signal + B[j] * np.cos(i / (Y / (j + 1)) * 2 * np.pi + phaseforB * (j + 1) * np.pi)
             if (i%int(Y/(o+1))<=int(Y/(o+1))/2):
                 SumPhase = SumPhase - koef * Bparasite * Tperiod / Y + koef / frequency / Y * (
                 signal)
@@ -80,11 +80,11 @@ for i in range (int(t * frequency) * Y):
     stattime[i]=i
     signal = 0
     for j in range(N):
-        signal = signal + B[j] * np.sin(i / (Y / (j + 1)) * 2 * np.pi)
+        signal = signal + B[j] * np.cos(i / (Y / (j + 1)) * 2 * np.pi)
     stat1[i]=signal
     signal=0
     for j in range(N):
-        signal = signal + solution[j] * np.sin(i / (Y / (j + 1)) * 2 * np.pi)
+        signal = signal + solution[j] * np.cos(i / (Y / (j + 1)) * 2 * np.pi)
     stat2[i]=signal#-stat1[i]
 
 plt.scatter(stattime, stat1, s=5, color='blue')

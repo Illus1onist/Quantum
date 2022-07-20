@@ -12,8 +12,8 @@ def randbin(P):
     # вероятность нуля
     return np.random.choice([0, 1], size=(1, 1), p=[P, 1 - P]).reshape(1)[0]
 Nmax=35
-Notgad=20
-Nzad=30
+Notgad=10
+Nzad=10
 
 frequency=10*10**3
 Tperiod=1/frequency

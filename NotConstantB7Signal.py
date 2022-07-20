@@ -68,6 +68,7 @@ for v in range(1,P):
         for i in range(NumberOfQuants):
             schet=schet+1-randbin(np.cos(SumPhase) * np.cos(SumPhase))
         SumPhase=np.arccos(np.sqrt(schet/NumberOfQuants))
+
         AverageSquarePhase[o]=AverageSquarePhase[o]+SumPhase*SumPhase
         AverageSquarePhaseB[o]=AverageSquarePhase[o]/v
 
@@ -92,7 +93,7 @@ for v in range(1,P):
         schetcikrazriva = schetcikrazriva + abs(signal1 - signal2)
     stattime[v-1] = v * t
     stat[v-1] = schetcikrazriva / schetcikamplitudi
-    print(v, ', ', schetcikrazriva / schetcikamplitudi)
+    '''print(v, ', ', schetcikrazriva / schetcikamplitudi)'''
 laststatT=[0]*int(t * frequency) * Y
 laststat1=[0]*int(t * frequency) * Y
 laststat2=[0]*int(t * frequency) * Y
