@@ -1,7 +1,5 @@
-#7 серия отличается от шестой тем, что количество коэффициентов увеличено до 35x35, сами коэффициенты помещены в эксель,
-# появилась возможность изменения количества частот задачи сигнала и частот его отгадки. При этом стоит заметить, что
-# коэффициенты в экселе считаются не программой а теоретическим способом, так как програмный показал себя ненадежным.
-# Программа signal дает параболический сигнал, а F - обычный сгнал на гармониках
+#8 серия пытается достать больше информации из полученных результатов (еще и фазу волны некоторой частоты)
+#эта программа экспериментальная, для проверки некоторых концептов, вторая - более автоматизированная и по-другому продуманная
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,12 +10,13 @@ def randbin(P):
     # вероятность нуля
     return np.random.choice([0, 1], size=(1, 1), p=[P, 1 - P]).reshape(1)[0]
 Nmax=35
+#число задающих частот
 Notgad=3
 Nzad=3
+#
 frequency=10*10**3
 Tperiod=1/frequency
 phaseforB=0 # Это значение смещения фазы магнитного поля в радианах!!!
-Bparasite=0*10**-12  # паразитное B
 F = 5000 # дискретизация
 koef = 1.4*10**15  # магнетон делить на планка
 B=[0]*Nmax
@@ -29,8 +28,13 @@ P=1000
 NumberOfQuants=100
 stattime=P*[0]
 stat1=P*[0]
-Numb=0 #(+1 - номер частоты показания)
-Bpoleconst=0*10**-12
+stat2=P*[0]
+stat1nov=P*[0]
+#
+Numb=2 #(+1 - номер частоты показания)
+
+Bpoleconst=2*10**-12
+
 B[0]=1*10**-12
 A[0]=1*10**-12
 B[1]=0*10**-12
@@ -38,10 +42,10 @@ A[1]=0*10**-12
 B[2]=1*10**-12
 A[2]=1*10**-12
 
-
+JU=4 #описано ниже
 #перебор фаз начала
 for v in range (P):
-    SumPhase=0
+    SumPhase=  0
     PhaseForB=v/P*2*np.pi/(Numb+1)           #2pi - наибольший период
     for i in range (Y):  # (Y - частота дискретизации самого поля, один Максимальный период разделен на 1000 столбцов)
         #моделирование сигнала в точке
@@ -58,10 +62,26 @@ for v in range (P):
             SumPhase = SumPhase - koef / frequency / Y * (
                 signal)
 
-    stattime[v] = v/P*2*np.pi #/(Numb+1)
-    stat1[v]=SumPhase-Bpoleconst/frequency
+    SumPhase = np.pi/4+SumPhase*JU   # ВАЖНО Одного пробега по самому большому периоду мало, надо собирать статистику в течении
+    # бОльшего времени, чтобы кубит был к ней более чувствителен
+    stat2[v] = SumPhase - np.pi / 4
+    schet = 0
+    for i in range(NumberOfQuants):
+        schet = schet + 1 - randbin(np.cos(SumPhase) * np.cos(SumPhase))
+    SumPhase = np.arccos(np.sqrt(schet / NumberOfQuants))
 
-plt.scatter(stattime, stat1, s=5, color='blue')
+    stattime[v] = v/P*2*np.pi #/(Numb+1)
+    stat1[v]=SumPhase-np.pi/4
+
+for i in range(Y):
+     sum=0
+     for d in range (-20,20):
+         sum=sum+stat1[(i+d)%Y]
+     stat1nov[i]=sum/40
+
+plt.scatter(stattime, stat1nov, s=5, color='green')
+plt.scatter(stattime, stat2, s=5, color='red')
+#plt.scatter(stattime, stat1, s=5, color='blue')
 plt.grid(True)
 
 plt.show()

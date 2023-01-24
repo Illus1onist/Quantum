@@ -25,7 +25,7 @@ B=[0]*Nmax
 for i in range (Nzad):
     B[i] = randbin(0.5)*10**-12  # наше поле (его амплитуда)
 B0 = 5.6*10**-12  # 5,6*10**-12 - максимум
-t = 1*10**-4  # время первого снятия
+t = 2*10**-4  # время первого снятия
 
 Y = 1000 # (Y - частота дискретизации самого поля, один МАКСИМАЛЬНЫЙ период разделен на 1000 столбцов)
 AverageSquarePhase=[0]*Notgad
@@ -47,11 +47,8 @@ for o in range (Notgad): # перебор частот поворотов
                 signal)
         schet=0
 
-        #for i in range(NumberOfQuants):
-        #    schet=schet+1-randbin(np.cos(SumPhase) * np.cos(SumPhase))
-        #SumPhase=np.arccos(np.sqrt(schet/NumberOfQuants))
 
-        AverageSquarePhase[o]=AverageSquarePhase[o]+SumPhase*SumPhase/P
+        AverageSquarePhase[o]=AverageSquarePhase[o]+SumPhase*SumPhase/P/((t/2*frequency)**2)
     print(0)
 
 matritsakoeffitsientow=[[0]*Notgad for i in range (Notgad)]
@@ -82,7 +79,8 @@ for i in range (int(t * frequency) * Y):
     for j in range(Notgad):
         signal = signal + solution[j] * np.sin(i / (Y / (j + 1)) * 2 * np.pi)
     stat2[i]=signal#-stat1[i]
-
+print(B)
+print(solution)
 plt.scatter(stattime, stat1, s=5, color='blue')
 plt.scatter(stattime, stat2, s=5, color='red')
 

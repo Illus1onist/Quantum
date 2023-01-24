@@ -38,12 +38,17 @@ for o in range (N): # перебор частот поворотов, от frequ
         SumPhase = 0
         for i in range(int(t * frequency) * Y):  # (Y - частота дискретизации самого поля, один Максимальный период разделен на 1000 столбцов)
             signal = 0
-            #for j in range(N):
-                #signal = signal + B[j] * np.sin(i / (Y / (j + 1)) * 2 * np.pi + phaseforB * (j + 1) * np.pi)
+            # for j in range(N):
+            # signal = signal + B[j] * np.sin(i / (Y / (j + 1)) * 2 * np.pi + phaseforB * (j + 1) * np.pi)
             y = 16
-            signal = -(-1 + 2 * (((i-(int(t * frequency) * Y*phaseforB)) // int((int(t * frequency) * Y / y * 2))) % 2)) * B[0] * (
-                        1 - (y * (((i-(int(t * frequency) * Y*phaseforB)) % ((int(t * frequency) * Y) / (y / 2)) - 1 / y * (int(t * frequency) * Y)) / (
-                        int(t * frequency) * Y))) ** 2)
+            # signal = (10**-12)*np.sin(i / (Y / ( 1)) * 2 * np.pi + phaseforB * ( 1) * np.pi) + \
+            #         (10**-12)*np.sin(i / (Y / ( 2)) * 2 * np.pi + phaseforB * ( 2) * np.pi)+\
+            #         (10 ** -12) * np.cos(i / (Y / (1)) * 2 * np.pi + phaseforB * (1) * np.pi)
+            signal = -(-1 + 2 * (
+                        ((i - (int(t * frequency) * Y * phaseforB)) // int((int(t * frequency) * Y / y * 2))) % 2)) * B[
+                         0] * (
+                         1 - (y * (((i-(int(t * frequency) * Y*phaseforB)) % ((int(t * frequency) * Y) / (y / 2)) - 1 / y * (int(t * frequency) * Y)) / (
+                         int(t * frequency) * Y))) ** 2)
             if (i%int(Y/(o+1))<=int(Y/(o+1))/2):
                 SumPhase = SumPhase - koef * Bparasite * Tperiod / Y + koef / frequency / Y * (
                 signal)
@@ -55,7 +60,7 @@ for o in range (N): # перебор частот поворотов, от frequ
         #    schet=schet+1-randbin(np.cos(SumPhase) * np.cos(SumPhase))
         #SumPhase=np.arccos(np.sqrt(schet/NumberOfQuants))
         AverageSquarePhase[o]=AverageSquarePhase[o]+SumPhase*SumPhase/P
-    print(AverageSquarePhase[o])
+
 
 matritsakoeffitsientow=[[0]*10 for i in range (10)]
 
@@ -75,7 +80,6 @@ for i in range (N):
     solution[i]=np.sqrt(abs(solution[i])/koef**2/t**2)
     print(solution[i])
 
-
 stat1=[0]*int(t * frequency) * Y
 stat2=[0]*int(t * frequency) * Y
 stattime=[0]*int(t * frequency) * Y
@@ -91,7 +95,6 @@ for i in range (int(t * frequency) * Y):
                      1 - (y * (((i - (int(t * frequency) * Y * phaseforB)) % (
                          (int(t * frequency) * Y) / (y / 2)) - 1 / y * (int(t * frequency) * Y)) / (
                                        int(t * frequency) * Y))) ** 2)
-
 
     stat1[i]=signal
     signal=0
