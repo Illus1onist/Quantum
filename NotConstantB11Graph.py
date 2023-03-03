@@ -32,7 +32,7 @@ A = [0] * Nmax
 NumberOfQuants = 100
 
 A[0] = 2.0 * 10 ** -12
-B[0] = 2.0 * 10 ** -12
+B[0] = 0.0 * 10 ** -12
 A[1] = 0 * K
 B[1] = 0 * K
 A[2] = 0 * K
@@ -52,7 +52,7 @@ for i in range(F):
 
     for k in range(U):
 
-        PhaseforB = np.pi * 2 * k / U  #random.random()  # (равные времена)
+        PhaseforB = np.pi * 2 * random.random()  # (равные времена)
 
         SumPhase = 0
         for t in range (2000):
@@ -65,6 +65,16 @@ for i in range(F):
                 signal = signal*(-1)
 
             SumPhase = SumPhase+signal
+
+        # Кубитный модуль
+        JU = 0.4
+        SumPhase = SumPhase*JU + np.pi / 4
+        schet = 0
+        for quant in range(NumberOfQuants):
+            schet = schet + 1 - randbin(np.cos(SumPhase) * np.cos(SumPhase))
+        SumPhase = np.arccos(np.sqrt(schet / NumberOfQuants))
+        SumPhase = (SumPhase - np.pi / 4)/JU
+        # Запись с кубитами
 
         AverageSqPhase = AverageSqPhase + SumPhase ** 2
     l[i] = AverageSqPhase / U
